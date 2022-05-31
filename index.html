@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    body {
+      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcAOwzkwNxeWecODL1CI6gY0viWYUdv1W4Og&usqp=CAU');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size:  100% 100%;
+
+    }
+    </style>
+
+<style>
+  h1 {text-align: center;}
+  p {text-align: center;}
+  div {text-align: center;}
+  </style>
+  
+    
+  <head>
+    <title>Medical Sample collection & Testing</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <div class="img"></div>
+    <h1 align="center">Medical Sample collection & Testing</h1>
+    <div class="form">
+
+      
+
+      <h2>Agent ID</h2>
+      <input
+        class="age"
+        type="text"
+        id="uiage"
+        class="floatLabel"
+        name="Squareft"
+        value=""
+      />
+
+      <h2>Patient Age</h2>
+      <input
+        class="age"
+        type="text"
+        id="uiage"
+        class="floatLabel"
+        name="Squareft"
+        value=""
+      />
+
+      <h2>Time Taken For Sample Collection</h2>
+      <input
+        class="time_taken_for_sample_collection"
+        type="time"
+        id="uitime_taken_for_sample_collection"
+        class="floatLabel"
+        name="Squareft"
+        value=""
+      />
+
+      <h2>Lab Location (in KM)</h2>
+      <input
+        class="lab_location"
+        type="text"
+        id="uilab_location"
+        class="floatLabel"
+        name="Squareft"
+        value="KM"
+      />
+
+      <h2>Time Taken To Reach Lab</h2>
+      <input
+        class="time_taken_to_reach_lab"
+        type="time"
+        id="uitime_taken_to_reach_lab"
+        class="floatLabel"
+        name="Squareft"
+        value=""
+      />
+
+      <h2>Gender</h2>
+      <input type="radio" id="html" name="fav_language" value="Male">
+<label for="Male">Male</label><br>
+<input type="radio" id="css" name="fav_language" value="Female">
+<label for="Female">Female</label><br>
+<input type="radio" id="javascript" name="fav_language" value="Others">
+<label for="Others">Others</label>
+
+      <h2>Test Name</h2>
+      <select class="test_name" name="" id="uitest_name">
+        <option value="" disabled="disabled" selected="selected">
+          Choose Sample
+        </option>
+        <option>acute kidney profile</option>
+        <option>cbc</option>
+        <option>complete urinalysis</option>
+        <option>fasting blood sugar</option>
+        <option>h1n1</option>
+        <option>hba1c</option>
+        <option>lipid profile</option>
+        <option>rtpcr</option>
+        <option>tsh</option>
+        <option>vitamin d-25hydroxy</option>
+      </select>
+
+      <h2>Sample Storage</h2>
+      
+        <input type="radio" id="Advanced" name="fav_language" value="Advanced">
+<label for="Advanced">Advanced</label><br>
+<input type="radio" id="Normal" name="fav_language" value="Normal">
+<label for="Normal">Normal</label><br>
+
+
+
+
+      <h2>Traffic Conditions</h2>
+      <select class="traffic_conditions" name="" id="uitraffic_conditions">
+        <option value="" disabled="disabled" selected="selected">
+          Choose Traffic Conditions
+        </option>
+        <option>high traffic</option>
+        <option>medium traffic</option>
+        <option>low traffic</option>
+      </select>
+    </div>
+
+    <h2>Prediction</h2>
+    <div class="results">
+      <button class="submit" onclick="sendDetails()" type="button">
+        Predict
+      </button>
+      <div id="uiPredict" class="result"><h2></h2></div>
+    </div>
+  </body>
+
+  <script>
+    async function sendDetails() {
+      let agentid = document.getElementById("uiagentid").value;
+      let age = document.getElementById("uiage").value;
+      let sampleCollectionTime = document.getElementById(
+        "uitime_taken_for_sample_collection"
+      ).value;
+      let labLocation = document.getElementById("uilab_location").value;
+      let travelTime = document.getElementById(
+        "uitime_taken_to_reach_lab"
+      ).value;
+      let gender = document.getElementById("uigender").value;
+      let testName = document.getElementById("uitest_name").value;
+      let sampleStorage = document.getElementById("uisample_storage").value;
+      let trafficConditions = document.getElementById("uitraffic_conditions").value;
+
+      const rawResponse = await fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          agentid,
+          age,
+          sampleCollectionTime,
+          labLocation,
+          travelTime,
+          gender,
+          testName,
+          sampleStorage,
+          trafficConditions
+        })
+      })
+      
+      const response = await rawResponse.json();
+
+      let html = '';
+      if (response.success) html = "<h4>Prediction: " + response.prediction + "</h4>";
+      else html = "<h4>" + response.message + "</h4>";
+
+      document.getElementById('uiSample_estimation').innerHTML = html;
+      
+      // console.log("response", response)
+      // console.log(
+      //   agentid,  
+      //   age,
+      //   sampleCollectionTime,
+      //   labLocation,
+      //   travelTime,
+      //   gender,
+      //   testName,
+      //   sampleStorage,
+      //   trafficConditions
+      // );
+    }
+
+    
+  </script>
+</html>
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+ You signed in with another tab or window. Reload to refresh your session.Loading complete
